@@ -1,0 +1,22 @@
+# kubernetes-manifests/ms-auth.yaml
+# kubernetes-manifests/ms-auth-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ms-auth-ingress
+  annotations:
+    # 1. Especifica que Kong es el controlador de Ingress
+    kubernetes.io/ingress.class: kong
+    # 2. Habilita el Service Mesh (Linkerd) para esta ruta, si es necesario
+    linkerd.io/inject: enabled 
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /auth # Ruta base, incluyendo /auth/login
+        pathType: Prefix
+        backend:
+          service:
+            name: ms-auth-service # ¡Debe coincidir con el nombre del Service ms-auth!
+            port:
+              number: 4000 # El puerto interno de ms-auth

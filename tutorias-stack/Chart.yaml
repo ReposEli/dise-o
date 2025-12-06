@@ -1,0 +1,32 @@
+apiVersion: v2
+name: tutorias-stack
+description: Umbrella Chart para el despliegue completo de la arquitectura de microservicios de Tutorias Universitarias.
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+
+dependencies:
+  # Dependencias de Microservicios
+  - name: ms-agenda
+    version: 1.0.0
+    repository: "file://../charts/ms-agenda"  # <--- Apunta a tu carpeta local
+    condition: ms-agenda.enabled
+  - name: ms-auth
+    version: 1.0.0
+    repository: "file://../charts/ms-auth"
+    condition: ms-auth.enabled
+  - name: ms-tutorias
+    version: 1.0.0
+    repository: "file://../charts/ms-tutorias"
+    condition: ms-tutorias.enabled
+  - name: ms-usuarios
+    version: 1.0.0
+    repository: "file://../charts/ms-usuarios"
+    condition: ms-usuarios.enabled
+  - name: ms-notificaciones
+    version: 1.0.0
+    repository: "file://../charts/ms-notificaciones"
+    condition: ms-notificaciones.enabled
+  
+  # --- Añade aquí tus charts de infraestructura si los creaste ---
+  # Si no los creaste, puedes referenciar los manifiestos planos de infraestructura directamente en ArgoCD o en las templates.
